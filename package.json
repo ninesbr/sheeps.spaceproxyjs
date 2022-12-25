@@ -1,0 +1,18 @@
+{
+  "name": "sheeps-spaceproxyjs",
+  "version": "1.0.0",
+  "repository": "git@github.com:ninesbr/sheeps.spaceproxyjs.git",
+  "author": "devops nines <devops@nines.com.br>",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "compile:ts": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
+    "compile:copy": "cp src/lib/message_* dist/lib/es5/lib/. && cp src/lib/message_* dist/lib/es6/lib/.",
+    "compile": "npm run compile:ts && npm run compile:copy"
+  },  
+  "devDependencies": {
+    "typescript": "^4.8.4",
+    "@grpc/grpc-js": "^1.7.3",
+    "google-protobuf": "^3.21.2"
+  }
+}
