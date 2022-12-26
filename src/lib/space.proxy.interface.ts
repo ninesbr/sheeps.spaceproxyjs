@@ -7,6 +7,6 @@ export interface SpaceProxy {
     fetchAndConvert(input: FetchInput): SpaceProxyStream;
     fetch(input: FetchInput): SpaceProxyStream
     drop(input: DropInput): Promise<DropOutput>;
-    push(input: PushInput, readable: Readable): Promise<any>;
+    push(input: PushInput, readable: Readable | Buffer): Promise<any>;
     disconnect();
 }

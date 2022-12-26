@@ -6,21 +6,25 @@ import {DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, PushReq, Metadata
 import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput} from "./space.proxy.data";
 import * as StreamPromises from "stream/promises";
 import {Readable, Writable} from "stream";
-import {SpaceProxyStream} from "./space.proxy.stream";
+import {BufferAsReadable, SpaceProxyStream} from "./space.proxy.stream";
+
+const DefaultChunkSize = 1024 * 1024 * 5; // 5MB
 
 export class SpaceProxyServer implements SpaceProxyServerInterface {
     private readonly _host: string;
     private readonly _port: number;
     private readonly _insecure: boolean;
+    private readonly _chunkSize: number;
     private _selfDisconnect: boolean;
 
     private _client: StorageCloudServiceClient;
 
-    constructor(host: string, port: number, insecure?: boolean) {
+    constructor(host: string, port: number, insecure?: boolean, chunkSize?: number) {
         this._host = host;
         this._port = port;
         this._selfDisconnect = false;
         this._insecure = insecure === undefined ? true : insecure;
+        this._chunkSize = chunkSize === undefined ? DefaultChunkSize : chunkSize;
     }
 
     connect(waitSeconds?: number): Promise<SpaceProxyServerInterface> {
@@ -202,9 +206,17 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         });
     }
 
-    push(input: PushInput, readable: Readable): Promise<any> {
+    push(input: PushInput, read: Readable | Buffer): Promise<any> {
+        let readable: Readable;
+        if (read instanceof Buffer) {
+            readable = BufferAsReadable(read as Buffer)
+        } else {
+            readable = read as Readable;
+        }
+
         const req = new PushReq();
         const md = new Metadata();
+        const maxChunkSize = this._chunkSize;
         md.setKey(input.key);
         md.setBucket(input.bucket);
         md.setContenttype(input.contentType);
@@ -219,19 +231,35 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                 resolve(res);
             })
             stream.write(req);
+            let chunks: Buffer[] = [];
+            let chunkSize: number = 0;
             readable.on('data', (msg: Buffer) => {
-                let chunk = new PushReq();
-                console.log('chunk size: ', msg.length );
-                chunk.setChunk(msg);
-                stream.write(chunk);
+                chunks.push(msg);
+                chunkSize += msg.length;
+                if (chunkSize >= maxChunkSize) {
+                    let chunk = new PushReq();
+                    chunk.setChunk(Buffer.concat(chunks));
+                    stream.write(chunk);
+                    // clear to next chunk
+                    chunks = [];
+                    chunkSize = 0;
+                }
             });
             readable.on('error', (err: any) => {
                 if (err.code && err.code === 13) {
                     return;
                 }
+                stream.end();
                 resolve(err);
             });
             readable.on('end', () => {
+                if (chunks.length > 0) {
+                    let chunk = new PushReq();
+                    chunk.setChunk(Buffer.concat(chunks));
+                    stream.write(chunk);
+                    // clear chunk
+                    chunks = [];
+                }
                 stream.end();
             });
         });

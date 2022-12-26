@@ -20,7 +20,7 @@ export interface PushInput {
     bucket?: string
     key: string
     contentType: string
-    concurrent: number;
+    concurrent?: number;
 }
 
 export interface DropInput {
@@ -33,9 +33,10 @@ export interface DropOutput {
     key: string
 }
 
-export interface ApophisConfiguration {
+export interface SpaceProxyConfiguration {
     host: string
     port: number
     insecure?: boolean
+    chunkSize?: number
     readTimeoutInSeconds?: number
 }

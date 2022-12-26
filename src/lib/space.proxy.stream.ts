@@ -8,3 +8,11 @@ export interface SpaceProxyStream {
     getSyncBuffer(): Promise<Uint8Array>;
 }
 
+export const BufferAsReadable = (buffer: Buffer) :Readable =>  {
+    return new Readable({
+        read() {
+            this.push(buffer);
+            this.push(null);
+        }
+    });
+}

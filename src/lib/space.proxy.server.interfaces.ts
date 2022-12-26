@@ -13,6 +13,7 @@ export interface SpaceProxyServerInterface {
 
     drop(input: DropInput): Promise<DropOutput>;
 
-    push(input: PushInput, readable: Readable): Promise<any>;
+    push(input: PushInput, readable: Readable | Buffer): Promise<any>;
+
     disconnect();
 }

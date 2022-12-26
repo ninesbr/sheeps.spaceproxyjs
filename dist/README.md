@@ -1,4 +1,4 @@
-# Space Proxy Client Javascript 🧑‍🚀 👾
+# Space Proxy Client Javascript 🚀 👾
 
 ```javascript
 import {New} from '@sheepsbr/spaceproxyjs';
@@ -7,6 +7,7 @@ const spaceProxy = await New({
     host: <host:string>,
     port: <port:number>,
     insecure: <insecure:boolean>,
+    chunkSize: 1024 * 1024 * 5, // 5MB
 });
 
 // Get Head file
@@ -25,13 +26,20 @@ const stream = spaceProxy.fetch({key: "uploaded/file.pdf"});
 // stream.getSyncBuffer()
 await stream.syncWrite(fs.createWriteStream("/tmp/myfile.pdf"))
 
-// Upload
+// Upload use readable
 const chunkSize = 1024 * 1024 * 5; // 5MB
 const input = {
   key: "/popcorn/hello.tar.gz",
   contentType: "application/gzip",
 };
 const upload = await spaceProxy.push(input, fs.createReadStream("/tmp/file.tar.gz", { highWaterMark: chunkSize }));
+
+// Upload use buffer
+const input = {
+  key: "/popcorn/hello.txt",
+  contentType: "text/plain",
+};
+const upload = await spaceProxy.push(input, Buffer.from("🍅 Tomato soup."));
 
 // Drop
 const drop = await spaceProxy.drop({key: "/upload/file.tar.gz" });
