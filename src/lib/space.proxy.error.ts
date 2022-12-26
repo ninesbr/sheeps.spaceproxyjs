@@ -5,7 +5,7 @@ export class SpaceProxyError extends Error {
     constructor(code?: string, message?: string) {
         super(message);
         this.code = code;
-        this.name = "ApophisError";
+        this.name = "SpaceProxyError";
     }
 
     static Resolve(message?: string): SpaceProxyError {
@@ -14,7 +14,7 @@ export class SpaceProxyError extends Error {
             let parsed = JSON.parse(msg.substring(msg.indexOf("{")));
             return new SpaceProxyError(parsed.code, parsed.message);
         } catch (_) {
-            return new SpaceProxyError();
+            return new SpaceProxyError("unknown", msg);
         }
     }
 }

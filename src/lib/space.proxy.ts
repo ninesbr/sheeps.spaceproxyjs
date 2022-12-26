@@ -1,7 +1,17 @@
 import {SpaceProxy} from "./space.proxy.interface";
-import {ApophisConfiguration, HeadInput, HeadOutput} from "./space.proxy.data";
+import {
+    ApophisConfiguration,
+    DropInput,
+    DropOutput,
+    FetchInput,
+    HeadInput,
+    HeadOutput,
+    PushInput
+} from "./space.proxy.data";
 import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyServer} from "./space.proxy.server";
+import {SpaceProxyStream} from "./space.proxy.stream";
+import {Readable} from "stream";
 
 export const New = async (config: ApophisConfiguration): Promise<SpaceProxy> => {
     const server = new SpaceProxyServer(config.host, config.port, config.insecure);
@@ -16,10 +26,25 @@ export class SpaceProxyImpl implements SpaceProxy {
         this._server = server;
     }
 
-    getDetails(input: HeadInput): Promise<HeadOutput> {
+    head(input: HeadInput): Promise<HeadOutput> {
         return this._server.getHead(input);
     }
 
+    fetchAndConvert(input: FetchInput): SpaceProxyStream {
+        return this._server.fetchConvert(input);
+    }
+
+    fetch(input: FetchInput): SpaceProxyStream {
+        return this._server.fetch(input);
+    }
+
+    drop(input: DropInput): Promise<DropOutput> {
+        return this._server.drop(input);
+    }
+
+    push(input: PushInput, readable: Readable): Promise<any> {
+        return this._server.push(input, readable);
+    }
     disconnect() {
         this._server.disconnect();
     }

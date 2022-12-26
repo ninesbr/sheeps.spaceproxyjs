@@ -10,6 +10,29 @@ export interface HeadOutput {
     metadata: { [key: string]: any; }
 }
 
+export interface FetchInput {
+    bucket?: string
+    key: string
+    format?: string
+}
+
+export interface PushInput {
+    bucket?: string
+    key: string
+    contentType: string
+    concurrent: number;
+}
+
+export interface DropInput {
+    bucket?: string
+    key: string
+    prefix?: boolean
+}
+
+export interface DropOutput {
+    key: string
+}
+
 export interface ApophisConfiguration {
     host: string
     port: number
