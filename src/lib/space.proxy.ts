@@ -16,7 +16,8 @@ import {Readable} from "stream";
 export const New = async (config: SpaceProxyConfiguration): Promise<SpaceProxy> => {
     const server = new SpaceProxyServer(config.host, config.port, config.insecure, config.chunkSize);
     await server.connect(config.readTimeoutInSeconds);
-    return new SpaceProxyImpl(server);;
+    return new SpaceProxyImpl(server);
+    ;
 }
 
 export class SpaceProxyImpl implements SpaceProxy {
@@ -45,8 +46,12 @@ export class SpaceProxyImpl implements SpaceProxy {
     push(input: PushInput, readable: Readable | Buffer): Promise<any> {
         return this._server.push(input, readable);
     }
+
     disconnect() {
         this._server.disconnect();
     }
 
+    isConnected(): boolean {
+        return this._server.isConnected();
+    }
 }

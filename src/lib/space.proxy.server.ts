@@ -2,11 +2,12 @@ import {StorageCloudServiceClient} from "./message_grpc_pb";
 import {ChannelCredentials} from "@grpc/grpc-js";
 import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyError} from "./space.proxy.error";
-import {DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, PushReq, Metadata} from "./message_pb";
+import {DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, Metadata, PushReq} from "./message_pb";
 import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput} from "./space.proxy.data";
 import * as StreamPromises from "stream/promises";
 import {Readable, Writable} from "stream";
 import {BufferAsReadable, SpaceProxyStream} from "./space.proxy.stream";
+import {ConnectivityState} from "@grpc/grpc-js/build/src/connectivity-state";
 
 const DefaultChunkSize = 1024 * 1024 * 5; // 5MB
 
@@ -15,16 +16,16 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
     private readonly _port: number;
     private readonly _insecure: boolean;
     private readonly _chunkSize: number;
-    private _selfDisconnect: boolean;
-
     private _client: StorageCloudServiceClient;
+    private _connect: boolean;
+    private _syncStatusTimer: any;
 
     constructor(host: string, port: number, insecure?: boolean, chunkSize?: number) {
         this._host = host;
         this._port = port;
-        this._selfDisconnect = false;
         this._insecure = insecure === undefined ? true : insecure;
         this._chunkSize = chunkSize === undefined ? DefaultChunkSize : chunkSize;
+        this._connect = false;
     }
 
     connect(waitSeconds?: number): Promise<SpaceProxyServerInterface> {
@@ -43,16 +44,23 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     reject(new SpaceProxyError('ServiceUnavailable', err.message));
                     return;
                 }
+
+                this.startSyncStatus();
                 resolve(this);
             });
         });
     }
 
+    isConnected(): boolean {
+        return this._connect;
+    }
+
     disconnect() {
-        this._selfDisconnect = true;
         if (this._client) {
             this._client.close();
+            this._client.getChannel().close();
         }
+        this.stopSyncStatus();
     }
 
     getHead(input: HeadInput): Promise<HeadOutput> {
@@ -263,5 +271,29 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                 stream.end();
             });
         });
+    }
+
+    startSyncStatus() {
+        this._connect = true;
+        if (!this._syncStatusTimer) {
+            this.verifyState();
+            return;
+        }
+    }
+
+    stopSyncStatus() {
+        this._connect = false;
+        if (this._syncStatusTimer) {
+            clearInterval(this._syncStatusTimer);
+            this._syncStatusTimer = null;
+        }
+    }
+
+    verifyState() {
+        const cli = this._client;
+        this._syncStatusTimer = setInterval(() => {
+            const state = cli.getChannel().getConnectivityState(false);
+            this._connect = state === ConnectivityState.READY;
+        }, 5000);
     }
 }

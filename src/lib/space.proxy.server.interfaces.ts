@@ -16,4 +16,6 @@ export interface SpaceProxyServerInterface {
     push(input: PushInput, readable: Readable | Buffer): Promise<any>;
 
     disconnect();
+
+    isConnected(): boolean
 }
