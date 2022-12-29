@@ -23,6 +23,11 @@ export interface PushInput {
     concurrent?: number;
 }
 
+export interface PushOutput {
+    key: string
+    size: number
+}
+
 export interface DropInput {
     bucket?: string
     key: string

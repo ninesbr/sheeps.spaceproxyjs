@@ -3,9 +3,9 @@ import {ChannelCredentials} from "@grpc/grpc-js";
 import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyError} from "./space.proxy.error";
 import {DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, Metadata, PushReq} from "./message_pb";
-import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput} from "./space.proxy.data";
+import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput, PushOutput} from "./space.proxy.data";
 import * as StreamPromises from "stream/promises";
-import {Readable, Writable} from "stream";
+import {Readable, Transform, Writable} from "stream";
 import {BufferAsReadable, SpaceProxyStream} from "./space.proxy.stream";
 import {ConnectivityState} from "@grpc/grpc-js/build/src/connectivity-state";
 
@@ -126,8 +126,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     let chunks = [];
                     const r = result.getStream();
                     r.once('error', (err) => {
-                        console.error(err);
-                        reject(err)
+                        reject(new SpaceProxyError('unknown', err.message));
                     });
                     r.once('end', () => {
                         resolve(Buffer.concat(chunks))
@@ -180,8 +179,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     let chunks = [];
                     const r = result.getStream();
                     r.once('error', (err) => {
-                        console.error(err);
-                        reject(err)
+                        reject(new SpaceProxyError('unknown', err.message));
                     });
                     r.once('end', () => {
                         resolve(Buffer.concat(chunks))
@@ -204,7 +202,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         return new Promise((resolve, reject) => {
             this._client.drop(req, (err, res) => {
                 if (err) {
-                    reject(SpaceProxyError.Resolve(err.message));
+                    reject(new SpaceProxyError('unknown', err.message));
                     return;
                 }
                 resolve({
@@ -214,10 +212,10 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         });
     }
 
-    push(input: PushInput, read: Readable | Buffer): Promise<any> {
+    push(input: PushInput, read: Readable | Buffer | Transform): Promise<PushOutput> {
         let readable: Readable;
         if (read instanceof Buffer) {
-            readable = BufferAsReadable(read as Buffer)
+            readable = BufferAsReadable(read as Buffer);
         } else {
             readable = read as Readable;
         }
@@ -233,10 +231,13 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         return new Promise<any>((resolve, reject) => {
             const stream = this._client.push((err, res) => {
                 if (err) {
-                    reject(err);
+                    reject(new SpaceProxyError('unknown', err.message));
                     return;
                 }
-                resolve(res);
+                resolve({
+                    key: res.getName(),
+                    size: res.getSize()
+                });
             })
             stream.write(req);
             let chunks: Buffer[] = [];

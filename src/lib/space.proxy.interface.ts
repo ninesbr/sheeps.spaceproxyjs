@@ -1,4 +1,4 @@
-import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput} from "./space.proxy.data";
+import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput, PushOutput} from "./space.proxy.data";
 import {SpaceProxyStream} from "./space.proxy.stream";
 import {Readable} from "stream";
 
@@ -11,7 +11,7 @@ export interface SpaceProxy {
 
     drop(input: DropInput): Promise<DropOutput>;
 
-    push(input: PushInput, readable: Readable | Buffer): Promise<any>;
+    push(input: PushInput, readable: Readable | Buffer): Promise<PushOutput>;
 
     disconnect();
 
