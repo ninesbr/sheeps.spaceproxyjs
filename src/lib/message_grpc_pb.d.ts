@@ -42,14 +42,14 @@ interface IStorageCloudServiceService_IFetchAndConvert extends grpc.MethodDefini
     responseSerialize: grpc.serialize<message_pb.FetchRes>;
     responseDeserialize: grpc.deserialize<message_pb.FetchRes>;
 }
-interface IStorageCloudServiceService_IPush extends grpc.MethodDefinition<message_pb.PushReq, message_pb.UploadRes> {
+interface IStorageCloudServiceService_IPush extends grpc.MethodDefinition<message_pb.PushReq, message_pb.PushRes> {
     path: "/pb.StorageCloudService/Push";
     requestStream: true;
     responseStream: false;
     requestSerialize: grpc.serialize<message_pb.PushReq>;
     requestDeserialize: grpc.deserialize<message_pb.PushReq>;
-    responseSerialize: grpc.serialize<message_pb.UploadRes>;
-    responseDeserialize: grpc.deserialize<message_pb.UploadRes>;
+    responseSerialize: grpc.serialize<message_pb.PushRes>;
+    responseDeserialize: grpc.deserialize<message_pb.PushRes>;
 }
 interface IStorageCloudServiceService_IDrop extends grpc.MethodDefinition<message_pb.DropReq, message_pb.DropRes> {
     path: "/pb.StorageCloudService/Drop";
@@ -67,7 +67,7 @@ export interface IStorageCloudServiceServer extends grpc.UntypedServiceImplement
     head: grpc.handleUnaryCall<message_pb.HeadReq, message_pb.HeadRes>;
     fetch: grpc.handleServerStreamingCall<message_pb.FetchReq, message_pb.FetchRes>;
     fetchAndConvert: grpc.handleServerStreamingCall<message_pb.FetchConvertReq, message_pb.FetchRes>;
-    push: grpc.handleClientStreamingCall<message_pb.PushReq, message_pb.UploadRes>;
+    push: grpc.handleClientStreamingCall<message_pb.PushReq, message_pb.PushRes>;
     drop: grpc.handleUnaryCall<message_pb.DropReq, message_pb.DropRes>;
 }
 
@@ -79,10 +79,10 @@ export interface IStorageCloudServiceClient {
     fetch(request: message_pb.FetchReq, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
     fetchAndConvert(request: message_pb.FetchConvertReq, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
     fetchAndConvert(request: message_pb.FetchConvertReq, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
-    push(callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    push(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    push(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    push(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    push(callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    push(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    push(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    push(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
     drop(request: message_pb.DropReq, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     drop(request: message_pb.DropReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     drop(request: message_pb.DropReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
@@ -97,10 +97,10 @@ export class StorageCloudServiceClient extends grpc.Client implements IStorageCl
     public fetch(request: message_pb.FetchReq, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
     public fetchAndConvert(request: message_pb.FetchConvertReq, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
     public fetchAndConvert(request: message_pb.FetchConvertReq, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<message_pb.FetchRes>;
-    public push(callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    public push(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    public push(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
-    public push(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.UploadRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    public push(callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    public push(metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    public push(options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
+    public push(metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.PushRes) => void): grpc.ClientWritableStream<message_pb.PushReq>;
     public drop(request: message_pb.DropReq, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     public drop(request: message_pb.DropReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     public drop(request: message_pb.DropReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;

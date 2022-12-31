@@ -92,15 +92,15 @@ function deserialize_pb_PushReq(buffer_arg) {
   return message_pb.PushReq.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_pb_UploadRes(arg) {
-  if (!(arg instanceof message_pb.UploadRes)) {
-    throw new Error('Expected argument of type pb.UploadRes');
+function serialize_pb_PushRes(arg) {
+  if (!(arg instanceof message_pb.PushRes)) {
+    throw new Error('Expected argument of type pb.PushRes');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_pb_UploadRes(buffer_arg) {
-  return message_pb.UploadRes.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_pb_PushRes(buffer_arg) {
+  return message_pb.PushRes.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -143,11 +143,11 @@ var StorageCloudServiceService = exports.StorageCloudServiceService = {
     requestStream: true,
     responseStream: false,
     requestType: message_pb.PushReq,
-    responseType: message_pb.UploadRes,
+    responseType: message_pb.PushRes,
     requestSerialize: serialize_pb_PushReq,
     requestDeserialize: deserialize_pb_PushReq,
-    responseSerialize: serialize_pb_UploadRes,
-    responseDeserialize: deserialize_pb_UploadRes,
+    responseSerialize: serialize_pb_PushRes,
+    responseDeserialize: deserialize_pb_PushRes,
   },
   drop: {
     path: '/pb.StorageCloudService/Drop',

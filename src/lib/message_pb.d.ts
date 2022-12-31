@@ -17,6 +17,8 @@ export class Metadata extends jspb.Message {
     setExtension$(value: string): Metadata;
     getConcurrent(): number;
     setConcurrent(value: number): Metadata;
+    getExpiresinseconds(): number;
+    setExpiresinseconds(value: number): Metadata;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Metadata.AsObject;
@@ -35,6 +37,7 @@ export namespace Metadata {
         bucket: string,
         extension: string,
         concurrent: number,
+        expiresinseconds: number,
     }
 }
 
@@ -78,23 +81,23 @@ export namespace PushReq {
 
 }
 
-export class UploadRes extends jspb.Message { 
+export class PushRes extends jspb.Message { 
     getName(): string;
-    setName(value: string): UploadRes;
+    setName(value: string): PushRes;
     getSize(): number;
-    setSize(value: number): UploadRes;
+    setSize(value: number): PushRes;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): UploadRes.AsObject;
-    static toObject(includeInstance: boolean, msg: UploadRes): UploadRes.AsObject;
+    toObject(includeInstance?: boolean): PushRes.AsObject;
+    static toObject(includeInstance: boolean, msg: PushRes): PushRes.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: UploadRes, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): UploadRes;
-    static deserializeBinaryFromReader(message: UploadRes, reader: jspb.BinaryReader): UploadRes;
+    static serializeBinaryToWriter(message: PushRes, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): PushRes;
+    static deserializeBinaryFromReader(message: PushRes, reader: jspb.BinaryReader): PushRes;
 }
 
-export namespace UploadRes {
+export namespace PushRes {
     export type AsObject = {
         name: string,
         size: number,

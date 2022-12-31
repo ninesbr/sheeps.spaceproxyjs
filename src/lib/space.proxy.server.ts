@@ -227,6 +227,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         md.setBucket(input.bucket);
         md.setContenttype(input.contentType);
         md.setConcurrent(input.concurrent);
+        md.setExpiresinseconds(input.expireInSeconds);
         req.setMetadata(md);
         return new Promise<any>((resolve, reject) => {
             const stream = this._client.push((err, res) => {
