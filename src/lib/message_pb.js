@@ -798,7 +798,8 @@ proto.pb.PushRes.prototype.toObject = function(opt_includeInstance) {
 proto.pb.PushRes.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    size: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    size: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    hash: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -843,6 +844,10 @@ proto.pb.PushRes.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readUint64());
       msg.setSize(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setHash(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -886,6 +891,13 @@ proto.pb.PushRes.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getHash();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -922,6 +934,24 @@ proto.pb.PushRes.prototype.getSize = function() {
  */
 proto.pb.PushRes.prototype.setSize = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string hash = 3;
+ * @return {string}
+ */
+proto.pb.PushRes.prototype.getHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pb.PushRes} returns this
+ */
+proto.pb.PushRes.prototype.setHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

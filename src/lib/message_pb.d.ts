@@ -86,6 +86,8 @@ export class PushRes extends jspb.Message {
     setName(value: string): PushRes;
     getSize(): number;
     setSize(value: number): PushRes;
+    getHash(): string;
+    setHash(value: string): PushRes;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PushRes.AsObject;
@@ -101,6 +103,7 @@ export namespace PushRes {
     export type AsObject = {
         name: string,
         size: number,
+        hash: string,
     }
 }
 

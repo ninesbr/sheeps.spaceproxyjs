@@ -27,6 +27,7 @@ export interface PushInput {
 export interface PushOutput {
     key: string
     size: number
+    hash: string
 }
 
 export interface DropInput {

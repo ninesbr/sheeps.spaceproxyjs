@@ -237,7 +237,8 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                 }
                 resolve({
                     key: res.getName(),
-                    size: res.getSize()
+                    size: res.getSize(),
+                    hash: res.getHash()
                 });
             })
             stream.write(req);
