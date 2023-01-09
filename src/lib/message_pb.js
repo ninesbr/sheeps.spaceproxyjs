@@ -273,7 +273,8 @@ proto.pb.Metadata.toObject = function(includeInstance, msg) {
     bucket: jspb.Message.getFieldWithDefault(msg, 3, ""),
     extension: jspb.Message.getFieldWithDefault(msg, 4, ""),
     concurrent: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    expiresinseconds: jspb.Message.getFieldWithDefault(msg, 6, 0)
+    expiresinseconds: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    size: jspb.Message.getFieldWithDefault(msg, 7, 0)
   };
 
   if (includeInstance) {
@@ -333,6 +334,10 @@ proto.pb.Metadata.deserializeBinaryFromReader = function(msg, reader) {
     case 6:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setExpiresinseconds(value);
+      break;
+    case 7:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setSize(value);
       break;
     default:
       reader.skipField();
@@ -402,6 +407,13 @@ proto.pb.Metadata.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeUint32(
       6,
+      f
+    );
+  }
+  f = message.getSize();
+  if (f !== 0) {
+    writer.writeUint64(
+      7,
       f
     );
   }
@@ -513,6 +525,24 @@ proto.pb.Metadata.prototype.getExpiresinseconds = function() {
  */
 proto.pb.Metadata.prototype.setExpiresinseconds = function(value) {
   return jspb.Message.setProto3IntField(this, 6, value);
+};
+
+
+/**
+ * optional uint64 size = 7;
+ * @return {number}
+ */
+proto.pb.Metadata.prototype.getSize = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.pb.Metadata} returns this
+ */
+proto.pb.Metadata.prototype.setSize = function(value) {
+  return jspb.Message.setProto3IntField(this, 7, value);
 };
 
 

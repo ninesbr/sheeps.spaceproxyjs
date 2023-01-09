@@ -19,6 +19,8 @@ export class Metadata extends jspb.Message {
     setConcurrent(value: number): Metadata;
     getExpiresinseconds(): number;
     setExpiresinseconds(value: number): Metadata;
+    getSize(): number;
+    setSize(value: number): Metadata;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Metadata.AsObject;
@@ -38,6 +40,7 @@ export namespace Metadata {
         extension: string,
         concurrent: number,
         expiresinseconds: number,
+        size: number,
     }
 }
 

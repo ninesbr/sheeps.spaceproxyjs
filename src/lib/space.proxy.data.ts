@@ -22,6 +22,8 @@ export interface PushInput {
     contentType: string
     concurrent?: number;
     expireInSeconds?:number;
+    length?:number;
+    extension?: string;
 }
 
 export interface PushOutput {
