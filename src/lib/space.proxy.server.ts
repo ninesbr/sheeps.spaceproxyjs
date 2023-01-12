@@ -2,8 +2,17 @@ import {StorageCloudServiceClient} from "./message_grpc_pb";
 import {ChannelCredentials} from "@grpc/grpc-js";
 import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyError} from "./space.proxy.error";
-import {DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, Metadata, PushReq} from "./message_pb";
-import {DropInput, DropOutput, FetchInput, HeadInput, HeadOutput, PushInput, PushOutput} from "./space.proxy.data";
+import {CopyFromReq, DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, Metadata, PushReq} from "./message_pb";
+import {
+    CopyInput, CopyOutput,
+    DropInput,
+    DropOutput,
+    FetchInput,
+    HeadInput,
+    HeadOutput,
+    PushInput,
+    PushOutput
+} from "./space.proxy.data";
 import * as StreamPromises from "stream/promises";
 import {Readable, Transform, Writable} from "stream";
 import {BufferAsReadable, SpaceProxyStream} from "./space.proxy.stream";
@@ -274,6 +283,30 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     chunks = [];
                 }
                 stream.end();
+            });
+        });
+    }
+
+
+    copy(input: CopyInput): Promise<CopyOutput> {
+        const req = new CopyFromReq()
+        req.setBucket(input.bucket);
+        req.setKey(input.key);
+        req.setUri(input.url);
+        for (const [key, value] of Object.entries(input.headers)) {
+            req.getHeadersMap().set(`${key}`, `${value}`);
+        }
+        return new Promise((resolve, reject) => {
+            this._client.copyFrom(req, (err, res) => {
+                if (err) {
+                    reject(SpaceProxyError.Resolve(err.message));
+                    return;
+                }
+                resolve({
+                    key: res.getName(),
+                    size: res.getSize(),
+                    hash: res.getHash(),
+                });
             });
         });
     }

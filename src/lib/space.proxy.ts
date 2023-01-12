@@ -1,5 +1,7 @@
 import {SpaceProxy} from "./space.proxy.interface";
 import {
+    CopyInput,
+    CopyOutput,
     DropInput,
     DropOutput,
     FetchInput,
@@ -46,6 +48,10 @@ export class SpaceProxyImpl implements SpaceProxy {
 
     push(input: PushInput, readable: Readable | Buffer): Promise<PushOutput> {
         return this._server.push(input, readable);
+    }
+
+    copyFrom(input: CopyInput): Promise<CopyOutput> {
+        return this._server.copy(input);
     }
 
     disconnect() {

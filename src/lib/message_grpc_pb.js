@@ -4,6 +4,28 @@
 var grpc = require('@grpc/grpc-js');
 var message_pb = require('./message_pb.js');
 
+function serialize_pb_CopyFromReq(arg) {
+  if (!(arg instanceof message_pb.CopyFromReq)) {
+    throw new Error('Expected argument of type pb.CopyFromReq');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_pb_CopyFromReq(buffer_arg) {
+  return message_pb.CopyFromReq.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_pb_CopyFromRes(arg) {
+  if (!(arg instanceof message_pb.CopyFromRes)) {
+    throw new Error('Expected argument of type pb.CopyFromRes');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_pb_CopyFromRes(buffer_arg) {
+  return message_pb.CopyFromRes.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_pb_DropReq(arg) {
   if (!(arg instanceof message_pb.DropReq)) {
     throw new Error('Expected argument of type pb.DropReq');
@@ -159,6 +181,17 @@ var StorageCloudServiceService = exports.StorageCloudServiceService = {
     requestDeserialize: deserialize_pb_DropReq,
     responseSerialize: serialize_pb_DropRes,
     responseDeserialize: deserialize_pb_DropRes,
+  },
+  copyFrom: {
+    path: '/pb.StorageCloudService/CopyFrom',
+    requestStream: false,
+    responseStream: false,
+    requestType: message_pb.CopyFromReq,
+    responseType: message_pb.CopyFromRes,
+    requestSerialize: serialize_pb_CopyFromReq,
+    requestDeserialize: deserialize_pb_CopyFromReq,
+    responseSerialize: serialize_pb_CopyFromRes,
+    responseDeserialize: deserialize_pb_CopyFromRes,
   },
 };
 

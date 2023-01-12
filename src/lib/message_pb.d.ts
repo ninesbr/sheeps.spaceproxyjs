@@ -298,3 +298,60 @@ export namespace DropRes {
         key: string,
     }
 }
+
+export class CopyFromReq extends jspb.Message { 
+    getUri(): string;
+    setUri(value: string): CopyFromReq;
+
+    getHeadersMap(): jspb.Map<string, string>;
+    clearHeadersMap(): void;
+    getKey(): string;
+    setKey(value: string): CopyFromReq;
+    getBucket(): string;
+    setBucket(value: string): CopyFromReq;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): CopyFromReq.AsObject;
+    static toObject(includeInstance: boolean, msg: CopyFromReq): CopyFromReq.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: CopyFromReq, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): CopyFromReq;
+    static deserializeBinaryFromReader(message: CopyFromReq, reader: jspb.BinaryReader): CopyFromReq;
+}
+
+export namespace CopyFromReq {
+    export type AsObject = {
+        uri: string,
+
+        headersMap: Array<[string, string]>,
+        key: string,
+        bucket: string,
+    }
+}
+
+export class CopyFromRes extends jspb.Message { 
+    getName(): string;
+    setName(value: string): CopyFromRes;
+    getSize(): number;
+    setSize(value: number): CopyFromRes;
+    getHash(): string;
+    setHash(value: string): CopyFromRes;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): CopyFromRes.AsObject;
+    static toObject(includeInstance: boolean, msg: CopyFromRes): CopyFromRes.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: CopyFromRes, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): CopyFromRes;
+    static deserializeBinaryFromReader(message: CopyFromRes, reader: jspb.BinaryReader): CopyFromRes;
+}
+
+export namespace CopyFromRes {
+    export type AsObject = {
+        name: string,
+        size: number,
+        hash: string,
+    }
+}

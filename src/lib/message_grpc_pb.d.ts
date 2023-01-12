@@ -13,6 +13,7 @@ interface IStorageCloudServiceService extends grpc.ServiceDefinition<grpc.Untype
     fetchAndConvert: IStorageCloudServiceService_IFetchAndConvert;
     push: IStorageCloudServiceService_IPush;
     drop: IStorageCloudServiceService_IDrop;
+    copyFrom: IStorageCloudServiceService_ICopyFrom;
 }
 
 interface IStorageCloudServiceService_IHead extends grpc.MethodDefinition<message_pb.HeadReq, message_pb.HeadRes> {
@@ -60,6 +61,15 @@ interface IStorageCloudServiceService_IDrop extends grpc.MethodDefinition<messag
     responseSerialize: grpc.serialize<message_pb.DropRes>;
     responseDeserialize: grpc.deserialize<message_pb.DropRes>;
 }
+interface IStorageCloudServiceService_ICopyFrom extends grpc.MethodDefinition<message_pb.CopyFromReq, message_pb.CopyFromRes> {
+    path: "/pb.StorageCloudService/CopyFrom";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<message_pb.CopyFromReq>;
+    requestDeserialize: grpc.deserialize<message_pb.CopyFromReq>;
+    responseSerialize: grpc.serialize<message_pb.CopyFromRes>;
+    responseDeserialize: grpc.deserialize<message_pb.CopyFromRes>;
+}
 
 export const StorageCloudServiceService: IStorageCloudServiceService;
 
@@ -69,6 +79,7 @@ export interface IStorageCloudServiceServer extends grpc.UntypedServiceImplement
     fetchAndConvert: grpc.handleServerStreamingCall<message_pb.FetchConvertReq, message_pb.FetchRes>;
     push: grpc.handleClientStreamingCall<message_pb.PushReq, message_pb.PushRes>;
     drop: grpc.handleUnaryCall<message_pb.DropReq, message_pb.DropRes>;
+    copyFrom: grpc.handleUnaryCall<message_pb.CopyFromReq, message_pb.CopyFromRes>;
 }
 
 export interface IStorageCloudServiceClient {
@@ -86,6 +97,9 @@ export interface IStorageCloudServiceClient {
     drop(request: message_pb.DropReq, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     drop(request: message_pb.DropReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     drop(request: message_pb.DropReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
+    copyFrom(request: message_pb.CopyFromReq, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
+    copyFrom(request: message_pb.CopyFromReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
+    copyFrom(request: message_pb.CopyFromReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
 }
 
 export class StorageCloudServiceClient extends grpc.Client implements IStorageCloudServiceClient {
@@ -104,4 +118,7 @@ export class StorageCloudServiceClient extends grpc.Client implements IStorageCl
     public drop(request: message_pb.DropReq, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     public drop(request: message_pb.DropReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
     public drop(request: message_pb.DropReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.DropRes) => void): grpc.ClientUnaryCall;
+    public copyFrom(request: message_pb.CopyFromReq, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
+    public copyFrom(request: message_pb.CopyFromReq, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
+    public copyFrom(request: message_pb.CopyFromReq, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: message_pb.CopyFromRes) => void): grpc.ClientUnaryCall;
 }

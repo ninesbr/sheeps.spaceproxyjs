@@ -42,6 +42,19 @@ export interface DropOutput {
     key: string
 }
 
+export interface CopyInput {
+    bucket?: string
+    key: string
+    url: string
+    headers:  { [key: string]: any; }
+}
+
+export interface CopyOutput {
+    key: string
+    size: number
+    hash: string
+}
+
 export interface SpaceProxyConfiguration {
     host: string
     port: number
