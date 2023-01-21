@@ -4,7 +4,8 @@ import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyError} from "./space.proxy.error";
 import {CopyFromReq, DropReq, FetchConvertReq, FetchReq, FetchRes, HeadReq, Metadata, PushReq} from "./message_pb";
 import {
-    CopyInput, CopyOutput,
+    CopyInput,
+    CopyOutput,
     DropInput,
     DropOutput,
     FetchInput,
@@ -287,6 +288,37 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         });
     }
 
+    createWriteStream(input: PushInput): Writable {
+        const req = new PushReq();
+        const md = new Metadata();
+        md.setKey(input.key);
+        md.setBucket(input.bucket);
+        md.setContenttype(input.contentType);
+        md.setConcurrent(input.concurrent);
+        md.setExpiresinseconds(input.expireInSeconds);
+        md.setSize(input.length);
+        md.setExtension$(input.extension);
+        req.setMetadata(md);
+
+        const stream = this._client.push((err, _) => {
+            if (err) {
+                throw new SpaceProxyError('unknown', err.message);
+            }
+        });
+        stream.write(req);
+        const wr = new Writable({
+            write(data: Buffer, encoding, callback) {
+                let chunk = new PushReq();
+                chunk.setChunk(data);
+                stream.write(chunk)
+                callback();
+            }
+        });
+        wr.on("finish", () => {
+            stream.end()
+        });
+        return wr;
+    }
 
     copy(input: CopyInput): Promise<CopyOutput> {
         const req = new CopyFromReq()

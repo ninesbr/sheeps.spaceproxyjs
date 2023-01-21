@@ -9,7 +9,7 @@ import {
     PushOutput
 } from "./space.proxy.data";
 import {SpaceProxyStream} from "./space.proxy.stream";
-import {Readable} from "stream";
+import {Readable, Writable} from "stream";
 
 export interface SpaceProxy {
     head(input: HeadInput): Promise<HeadOutput>;
@@ -23,6 +23,8 @@ export interface SpaceProxy {
     push(input: PushInput, readable: Readable | Buffer): Promise<PushOutput>;
 
     copyFrom(input: CopyInput): Promise<CopyOutput>;
+
+    createWriteStream(input: PushInput): Writable;
 
     disconnect();
 

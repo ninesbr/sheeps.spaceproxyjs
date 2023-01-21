@@ -14,7 +14,7 @@ import {
 import {SpaceProxyServerInterface} from "./space.proxy.server.interfaces";
 import {SpaceProxyServer} from "./space.proxy.server";
 import {SpaceProxyStream} from "./space.proxy.stream";
-import {Readable} from "stream";
+import {Readable, Writable} from "stream";
 
 export const New = async (config: SpaceProxyConfiguration): Promise<SpaceProxy> => {
     const server = new SpaceProxyServer(config.host, config.port, config.insecure, config.chunkSize);
@@ -60,5 +60,9 @@ export class SpaceProxyImpl implements SpaceProxy {
 
     isConnected(): boolean {
         return this._server.isConnected();
+    }
+
+    createWriteStream(input: PushInput): Writable {
+        return this._server.createWriteStream(input);
     }
 }
