@@ -14,9 +14,9 @@ import {Readable, Writable} from "stream";
 export interface SpaceProxy {
     head(input: HeadInput): Promise<HeadOutput>;
 
-    fetchAndConvert(input: FetchInput): SpaceProxyStream;
+    fetchAndConvert(input: FetchInput): SpaceProxyStream | Promise<SpaceProxyStream>;
 
-    fetch(input: FetchInput): SpaceProxyStream;
+    fetch(input: FetchInput): SpaceProxyStream | Promise<SpaceProxyStream>;
 
     drop(input: DropInput): Promise<DropOutput>;
 
@@ -24,9 +24,9 @@ export interface SpaceProxy {
 
     copyFrom(input: CopyInput): Promise<CopyOutput>;
 
-    createWriteStream(input: PushInput): Writable;
+    createWriteStream(input: PushInput): Writable | Promise<Writable>;
 
     disconnect();
 
-    isConnected(): boolean;
+    isConnected(): boolean | Promise<boolean>;
 }

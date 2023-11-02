@@ -61,4 +61,7 @@ export interface SpaceProxyConfiguration {
     insecure?: boolean
     chunkSize?: number
     readTimeoutInSeconds?: number
+    poolName?: string
+    poolMax?: number
+    poolMin?: number
 }

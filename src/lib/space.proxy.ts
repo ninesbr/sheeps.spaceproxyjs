@@ -20,7 +20,6 @@ export const New = async (config: SpaceProxyConfiguration): Promise<SpaceProxy> 
     const server = new SpaceProxyServer(config.host, config.port, config.insecure, config.chunkSize);
     await server.connect(config.readTimeoutInSeconds);
     return new SpaceProxyImpl(server);
-    ;
 }
 
 export class SpaceProxyImpl implements SpaceProxy {

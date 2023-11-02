@@ -1,4 +1,4 @@
 node_modules
 dist/lib
 .idea/
-src/tests.js
+src/tests**.js
