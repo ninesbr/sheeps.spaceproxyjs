@@ -83,10 +83,12 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     reject(SpaceProxyError.Resolve(err.message));
                     return;
                 }
+
                 const metadata: any = {};
-                for (const [k, v] of res.getMetadataMap()) {
-                    metadata[k] = v;
-                }
+                res.getMetadataMap().forEach((value, key) => {
+                    metadata[key] = value;
+                });
+
                 resolve({
                     key: res.getKey(),
                     size: res.getSize(),
