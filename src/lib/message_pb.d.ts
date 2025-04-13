@@ -22,6 +22,9 @@ export class Metadata extends jspb.Message {
     getSize(): number;
     setSize(value: number): Metadata;
 
+    getMetadataMap(): jspb.Map<string, string>;
+    clearMetadataMap(): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Metadata.AsObject;
     static toObject(includeInstance: boolean, msg: Metadata): Metadata.AsObject;
@@ -41,6 +44,8 @@ export namespace Metadata {
         concurrent: number,
         expiresinseconds: number,
         size: number,
+
+        metadataMap: Array<[string, string]>,
     }
 }
 
@@ -92,6 +97,9 @@ export class PushRes extends jspb.Message {
     getHash(): string;
     setHash(value: string): PushRes;
 
+    getMetadataMap(): jspb.Map<string, string>;
+    clearMetadataMap(): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PushRes.AsObject;
     static toObject(includeInstance: boolean, msg: PushRes): PushRes.AsObject;
@@ -107,6 +115,8 @@ export namespace PushRes {
         name: string,
         size: number,
         hash: string,
+
+        metadataMap: Array<[string, string]>,
     }
 }
 
@@ -115,6 +125,8 @@ export class HeadReq extends jspb.Message {
     setBucket(value: string): HeadReq;
     getKey(): string;
     setKey(value: string): HeadReq;
+    getHash(): string;
+    setHash(value: string): HeadReq;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): HeadReq.AsObject;
@@ -130,6 +142,7 @@ export namespace HeadReq {
     export type AsObject = {
         bucket: string,
         key: string,
+        hash: string,
     }
 }
 
@@ -232,6 +245,9 @@ export class FetchRes extends jspb.Message {
     getData_asB64(): string;
     setData(value: Uint8Array | string): FetchRes;
 
+    getMetadataMap(): jspb.Map<string, string>;
+    clearMetadataMap(): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): FetchRes.AsObject;
     static toObject(includeInstance: boolean, msg: FetchRes): FetchRes.AsObject;
@@ -250,6 +266,8 @@ export namespace FetchRes {
         contenttype: string,
         part: number,
         data: Uint8Array | string,
+
+        metadataMap: Array<[string, string]>,
     }
 }
 
@@ -310,6 +328,9 @@ export class CopyFromReq extends jspb.Message {
     getBucket(): string;
     setBucket(value: string): CopyFromReq;
 
+    getMetadataMap(): jspb.Map<string, string>;
+    clearMetadataMap(): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CopyFromReq.AsObject;
     static toObject(includeInstance: boolean, msg: CopyFromReq): CopyFromReq.AsObject;
@@ -327,6 +348,8 @@ export namespace CopyFromReq {
         headersMap: Array<[string, string]>,
         key: string,
         bucket: string,
+
+        metadataMap: Array<[string, string]>,
     }
 }
 
@@ -337,6 +360,9 @@ export class CopyFromRes extends jspb.Message {
     setSize(value: number): CopyFromRes;
     getHash(): string;
     setHash(value: string): CopyFromRes;
+
+    getMetadataMap(): jspb.Map<string, string>;
+    clearMetadataMap(): void;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): CopyFromRes.AsObject;
@@ -353,5 +379,7 @@ export namespace CopyFromRes {
         name: string,
         size: number,
         hash: string,
+
+        metadataMap: Array<[string, string]>,
     }
 }

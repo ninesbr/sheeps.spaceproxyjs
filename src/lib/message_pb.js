@@ -318,7 +318,8 @@ proto.pb.Metadata.toObject = function(includeInstance, msg) {
     extension: jspb.Message.getFieldWithDefault(msg, 4, ""),
     concurrent: jspb.Message.getFieldWithDefault(msg, 5, 0),
     expiresinseconds: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    size: jspb.Message.getFieldWithDefault(msg, 7, 0)
+    size: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    metadataMap: (f = msg.getMetadataMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -382,6 +383,12 @@ proto.pb.Metadata.deserializeBinaryFromReader = function(msg, reader) {
     case 7:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setSize(value);
+      break;
+    case 8:
+      var value = msg.getMetadataMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
       break;
     default:
       reader.skipField();
@@ -460,6 +467,10 @@ proto.pb.Metadata.serializeBinaryToWriter = function(message, writer) {
       7,
       f
     );
+  }
+  f = message.getMetadataMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(8, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
 };
 
@@ -588,6 +599,28 @@ proto.pb.Metadata.prototype.getSize = function() {
 proto.pb.Metadata.prototype.setSize = function(value) {
   return jspb.Message.setProto3IntField(this, 7, value);
 };
+
+
+/**
+ * map<string, string> metadata = 8;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
+ */
+proto.pb.Metadata.prototype.getMetadataMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 8, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.pb.Metadata} returns this
+ */
+proto.pb.Metadata.prototype.clearMetadataMap = function() {
+  this.getMetadataMap().clear();
+  return this;};
 
 
 
@@ -873,7 +906,8 @@ proto.pb.PushRes.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
     size: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    hash: jspb.Message.getFieldWithDefault(msg, 3, "")
+    hash: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    metadataMap: (f = msg.getMetadataMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -921,6 +955,12 @@ proto.pb.PushRes.deserializeBinaryFromReader = function(msg, reader) {
     case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setHash(value);
+      break;
+    case 4:
+      var value = msg.getMetadataMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
       break;
     default:
       reader.skipField();
@@ -971,6 +1011,10 @@ proto.pb.PushRes.serializeBinaryToWriter = function(message, writer) {
       3,
       f
     );
+  }
+  f = message.getMetadataMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
 };
 
@@ -1029,6 +1073,28 @@ proto.pb.PushRes.prototype.setHash = function(value) {
 };
 
 
+/**
+ * map<string, string> metadata = 4;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
+ */
+proto.pb.PushRes.prototype.getMetadataMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 4, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.pb.PushRes} returns this
+ */
+proto.pb.PushRes.prototype.clearMetadataMap = function() {
+  this.getMetadataMap().clear();
+  return this;};
+
+
 
 
 
@@ -1062,7 +1128,8 @@ proto.pb.HeadReq.prototype.toObject = function(opt_includeInstance) {
 proto.pb.HeadReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     bucket: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    key: jspb.Message.getFieldWithDefault(msg, 2, "")
+    key: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    hash: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1107,6 +1174,10 @@ proto.pb.HeadReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setKey(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setHash(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1150,6 +1221,13 @@ proto.pb.HeadReq.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getHash();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -1186,6 +1264,24 @@ proto.pb.HeadReq.prototype.getKey = function() {
  */
 proto.pb.HeadReq.prototype.setKey = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string hash = 3;
+ * @return {string}
+ */
+proto.pb.HeadReq.prototype.getHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.pb.HeadReq} returns this
+ */
+proto.pb.HeadReq.prototype.setHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -1829,7 +1925,8 @@ proto.pb.FetchRes.toObject = function(includeInstance, msg) {
     size: jspb.Message.getFieldWithDefault(msg, 3, 0),
     contenttype: jspb.Message.getFieldWithDefault(msg, 4, ""),
     part: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    data: msg.getData_asB64()
+    data: msg.getData_asB64(),
+    metadataMap: (f = msg.getMetadataMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -1889,6 +1986,12 @@ proto.pb.FetchRes.deserializeBinaryFromReader = function(msg, reader) {
     case 6:
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setData(value);
+      break;
+    case 7:
+      var value = msg.getMetadataMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
       break;
     default:
       reader.skipField();
@@ -1960,6 +2063,10 @@ proto.pb.FetchRes.serializeBinaryToWriter = function(message, writer) {
       6,
       f
     );
+  }
+  f = message.getMetadataMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(7, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
 };
 
@@ -2094,6 +2201,28 @@ proto.pb.FetchRes.prototype.getData_asU8 = function() {
 proto.pb.FetchRes.prototype.setData = function(value) {
   return jspb.Message.setProto3BytesField(this, 6, value);
 };
+
+
+/**
+ * map<string, string> metadata = 7;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
+ */
+proto.pb.FetchRes.prototype.getMetadataMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 7, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.pb.FetchRes} returns this
+ */
+proto.pb.FetchRes.prototype.clearMetadataMap = function() {
+  this.getMetadataMap().clear();
+  return this;};
 
 
 
@@ -2451,7 +2580,8 @@ proto.pb.CopyFromReq.toObject = function(includeInstance, msg) {
     uri: jspb.Message.getFieldWithDefault(msg, 1, ""),
     headersMap: (f = msg.getHeadersMap()) ? f.toObject(includeInstance, undefined) : [],
     key: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    bucket: jspb.Message.getFieldWithDefault(msg, 4, "")
+    bucket: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    metadataMap: (f = msg.getMetadataMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -2506,6 +2636,12 @@ proto.pb.CopyFromReq.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setBucket(value);
       break;
+    case 5:
+      var value = msg.getMetadataMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
+      break;
     default:
       reader.skipField();
       break;
@@ -2559,6 +2695,10 @@ proto.pb.CopyFromReq.serializeBinaryToWriter = function(message, writer) {
       4,
       f
     );
+  }
+  f = message.getMetadataMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(5, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
 };
 
@@ -2639,6 +2779,28 @@ proto.pb.CopyFromReq.prototype.setBucket = function(value) {
 };
 
 
+/**
+ * map<string, string> metadata = 5;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
+ */
+proto.pb.CopyFromReq.prototype.getMetadataMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 5, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.pb.CopyFromReq} returns this
+ */
+proto.pb.CopyFromReq.prototype.clearMetadataMap = function() {
+  this.getMetadataMap().clear();
+  return this;};
+
+
 
 
 
@@ -2673,7 +2835,8 @@ proto.pb.CopyFromRes.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
     size: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    hash: jspb.Message.getFieldWithDefault(msg, 3, "")
+    hash: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    metadataMap: (f = msg.getMetadataMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -2721,6 +2884,12 @@ proto.pb.CopyFromRes.deserializeBinaryFromReader = function(msg, reader) {
     case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setHash(value);
+      break;
+    case 4:
+      var value = msg.getMetadataMap();
+      reader.readMessage(value, function(message, reader) {
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
+         });
       break;
     default:
       reader.skipField();
@@ -2771,6 +2940,10 @@ proto.pb.CopyFromRes.serializeBinaryToWriter = function(message, writer) {
       3,
       f
     );
+  }
+  f = message.getMetadataMap(true);
+  if (f && f.getLength() > 0) {
+    f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
 };
 
@@ -2827,6 +3000,28 @@ proto.pb.CopyFromRes.prototype.getHash = function() {
 proto.pb.CopyFromRes.prototype.setHash = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
+
+
+/**
+ * map<string, string> metadata = 4;
+ * @param {boolean=} opt_noLazyCreate Do not create the map if
+ * empty, instead returning `undefined`
+ * @return {!jspb.Map<string,string>}
+ */
+proto.pb.CopyFromRes.prototype.getMetadataMap = function(opt_noLazyCreate) {
+  return /** @type {!jspb.Map<string,string>} */ (
+      jspb.Message.getMapField(this, 4, opt_noLazyCreate,
+      null));
+};
+
+
+/**
+ * Clears values from the map. The map will be non-null.
+ * @return {!proto.pb.CopyFromRes} returns this
+ */
+proto.pb.CopyFromRes.prototype.clearMetadataMap = function() {
+  this.getMetadataMap().clear();
+  return this;};
 
 
 goog.object.extend(exports, proto.pb);

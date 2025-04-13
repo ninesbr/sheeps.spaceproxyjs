@@ -1,6 +1,7 @@
 export interface HeadInput {
-    bucket?: string
-    key: string
+    bucket?: string;
+    key: string;
+    hash?: string;
 }
 
 export interface HeadOutput {
@@ -24,12 +25,15 @@ export interface PushInput {
     expireInSeconds?:number;
     length?:number;
     extension?: string;
+    originalName?: string;
+    metadata?: { [key: string]: any; }
 }
 
 export interface PushOutput {
     key: string
     size: number
     hash: string
+    metadata?: { [key: string]: any; }
 }
 
 export interface DropInput {
@@ -53,6 +57,7 @@ export interface CopyOutput {
     key: string
     size: number
     hash: string
+    metadata?: { [key: string]: any; }
 }
 
 export interface SpaceProxyConfiguration {

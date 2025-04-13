@@ -242,6 +242,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         md.setExpiresinseconds(input.expireInSeconds);
         md.setSize(input.length);
         md.setExtension$(input.extension);
+        md.getMetadataMap().set('Content-OriginalName', input.originalName || '');
         req.setMetadata(md);
         return new Promise<any>((resolve, reject) => {
             const stream = this._client.push((err, res) => {
@@ -252,7 +253,8 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                 resolve({
                     key: res.getName(),
                     size: res.getSize(),
-                    hash: res.getHash()
+                    hash: res.getHash(),
+                    metadata: res.getMetadataMap().toObject(),
                 });
             })
             stream.write(req);
@@ -340,6 +342,7 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     key: res.getName(),
                     size: res.getSize(),
                     hash: res.getHash(),
+                    metadata: res.getMetadataMap().toObject(),
                 });
             });
         });
