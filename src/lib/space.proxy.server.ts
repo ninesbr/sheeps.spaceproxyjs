@@ -90,7 +90,8 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                 });
 
                 resolve({
-                    key: res.getKey(),
+                    key: metadata['Content-Disposition'] || res.getKey(),
+                    hash: metadata['Content-ID'],
                     size: res.getSize(),
                     contentType: res.getContenttype(),
                     metadata: metadata
@@ -250,11 +251,15 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
                     reject(new SpaceProxyError('unknown', err.message));
                     return;
                 }
+                const metadata: any = {};
+                res.getMetadataMap().forEach((value, key) => {
+                    metadata[key] = value;
+                });
                 resolve({
                     key: res.getName(),
                     size: res.getSize(),
                     hash: res.getHash(),
-                    metadata: res.getMetadataMap().toObject(),
+                    metadata: metadata,
                 });
             })
             stream.write(req);

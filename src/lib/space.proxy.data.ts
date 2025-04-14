@@ -7,6 +7,7 @@ export interface HeadInput {
 export interface HeadOutput {
     key: string
     size: number
+    hash: string
     contentType: string
     metadata: { [key: string]: any; }
 }
