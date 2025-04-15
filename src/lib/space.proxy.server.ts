@@ -244,6 +244,11 @@ export class SpaceProxyServer implements SpaceProxyServerInterface {
         md.setSize(input.length);
         md.setExtension$(input.extension);
         md.getMetadataMap().set('Content-OriginalName', input.originalName || '');
+        if (input.metadata) {
+            for (const [key, value] of Object.entries(input.metadata)) {
+                md.getMetadataMap().set(`${key}`, `${value}`);
+            }
+        }
         req.setMetadata(md);
         return new Promise<any>((resolve, reject) => {
             const stream = this._client.push((err, res) => {
